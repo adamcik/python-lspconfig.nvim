@@ -17,6 +17,10 @@ lsp+function to use as the `on_new_config` hook.
 { 'adamcik/python-lspconfig', opts = {} }
 ```
 
+You just have to make sure this always runs before the LSP initialses. I've
+misconfigured this myself which meant there was a race condition. But that was
+a bug in my personal config, not to plugin.
+
 Note that this depends on [plenary](https://github.com/nvim-lua/plenary.nvim) to
 make handling files and paths way nicer. If you are using lazy this handled.
 
