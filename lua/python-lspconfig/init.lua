@@ -24,10 +24,9 @@ local function determine_python(root)
 
     if (root / "uv.lock"):exists() then
         -- uv just searches for nearest .venv
-        for _, parent in pairs(root:parents()) do
-            if (parent / ".venv"):exists() then
-                return path_to_python_path(parent / ".venv")
-            end
+        local venv = root:find_upwards(".venv")
+        if venv then
+            return path_to_python_path(venv)
         end
     end
 
