@@ -99,12 +99,25 @@ M.setup = function(opts)
     -- Merge whatever config user has provivded for `on_new_config`
     local on_new_config = vim.tbl_extend("force", M.on_new_config, opts.on_new_config or {})
 
+    local original_on_setup = lspconfig.util.on_setup
+
     -- Instal setup and config hooks for the configured tools:
-    lspconfig.util.on_setup = lspconfig.util.add_hook_after(lspconfig.util.on_setup, function(config)
-        if on_new_config[config.name] then
-            config.on_new_config = lspconfig.util.add_hook_after(config.on_new_config, on_new_config[config.name])
+    lspconfig.util.on_setup = function(config, ...)
+        if original_on_setup then
+            original_on_setup(config, ...)
         end
-    end)
+
+        if on_new_config[config.name] then
+            local original_on_new_config = config.on_new_config
+
+            config.on_new_config = function(...)
+                if original_on_new_config then
+                    original_on_new_config(...)
+                end
+                on_new_config[config.name](...)
+            end
+        end
+    end
 end
 
 return M
