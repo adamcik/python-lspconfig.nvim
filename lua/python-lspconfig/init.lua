@@ -72,11 +72,18 @@ M.python_path = function(dir)
 end
 
 local function determine_and_set_python_path(config, root)
+    root = Path:new(root)
+
     local python = M.python_path(root)
     if python and python ~= "" then
         -- TODO: See if we need pep582 support with uv?
         -- config.settings.python.analysis.extraPaths = ...
         config.settings.python.pythonPath = python
+    end
+
+    local jj = root:find_upwards(".jj")
+    if jj then
+        --   config.settings.root_dir = jj:parent()
     end
 end
 
