@@ -1,6 +1,5 @@
 local Path = require("plenary.path")
 local scan = require("plenary.scandir")
-local lspconfig = require("lspconfig")
 
 local python_path_mem = {}
 
@@ -94,6 +93,9 @@ M.on_new_config = {
 }
 
 M.setup = function(opts)
+    -- Load this locally to avoid import loops.
+    local lspconfig = require("lspconfig")
+
     -- Merge whatever config user has provivded for `on_new_config`
     local on_new_config = vim.tbl_extend("force", M.on_new_config, opts.on_new_config or {})
 
