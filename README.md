@@ -14,7 +14,7 @@ If using lazy just add the following to get things autoatically configured.
 lsp+function to use as the `on_new_config` hook.
 
 ```lua
-{ 'adamcik/python-lspconfig', opts = {} }
+{ 'adamcik/python-lspconfig.nvim', opts = {} }
 ```
 
 You just have to make sure this always runs before the LSP initialses. I've
